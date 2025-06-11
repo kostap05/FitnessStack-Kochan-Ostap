@@ -1,3 +1,5 @@
 requirements.txt
 .idea
 idea
+static
+fitness.db
