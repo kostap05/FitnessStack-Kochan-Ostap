@@ -5,6 +5,7 @@ from backend.auth import router as auth_router
 from backend.routes.user import router as user_router
 from backend.routes import workout
 
+
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 

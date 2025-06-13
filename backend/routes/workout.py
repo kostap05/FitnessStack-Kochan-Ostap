@@ -2,25 +2,26 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
 from datetime import datetime
-from backend.models import Workout, Exercise, User
-from backend.schemas import Workout, WorkoutCreate
+
+from backend.models import Workout as WorkoutModel, Exercise as ExerciseModel, User as UserModel
+from backend.schemas import Workout as WorkoutSchema, WorkoutCreate, WorkoutUpdate
 from backend.dependencies import get_current_user, get_db
 
 router = APIRouter(prefix="/workouts", tags=["Workouts"])
 
 
-@router.post("/", response_model=Workout)
+@router.post("/", response_model=WorkoutSchema)
 def create_workout(
     workout: WorkoutCreate,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: UserModel = Depends(get_current_user)
 ):
     total_duration = sum(ex.duration for ex in workout.exercises)
     MET = 8
     weight_kg = current_user.weight
     total_calories = (MET * 3.5 * weight_kg / 200) * total_duration
 
-    db_workout = Workout(
+    db_workout = WorkoutModel(
         title=workout.title,
         date=workout.date or datetime.utcnow(),
         total_duration=total_duration,
@@ -32,7 +33,7 @@ def create_workout(
     db.refresh(db_workout)
 
     for ex in workout.exercises:
-        db_exercise = Exercise(
+        db_exercise = ExerciseModel(
             workout_id=db_workout.id,
             exercise_name=ex.exercise_name,
             sets=ex.sets,
@@ -46,21 +47,65 @@ def create_workout(
     return db_workout
 
 
-@router.get("/", response_model=List[Workout])
+@router.get("/", response_model=List[WorkoutSchema])
 def list_workouts(
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: UserModel = Depends(get_current_user)
 ):
-    return db.query(Workout).filter(Workout.user_id == current_user.id).all()
+    return db.query(WorkoutModel).filter(WorkoutModel.user_id == current_user.id).all()
+
+
+@router.put("/{workout_id}", response_model=WorkoutSchema)
+def update_workout(
+    workout_id: int,
+    workout: WorkoutUpdate,
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user)
+):
+    db_workout = db.query(WorkoutModel).filter(
+        WorkoutModel.id == workout_id,
+        WorkoutModel.user_id == current_user.id
+    ).first()
+    if not db_workout:
+        raise HTTPException(status_code=404, detail="Workout not found")
+
+    if workout.title:
+        db_workout.title = workout.title
+
+    if workout.exercises is not None:
+        db.query(ExerciseModel).filter(ExerciseModel.workout_id == db_workout.id).delete()
+
+        total_duration = 0
+        for ex in workout.exercises:
+            new_ex = ExerciseModel(
+                exercise_name=ex.exercise_name,
+                sets=ex.sets,
+                reps=ex.reps,
+                duration=ex.duration,
+                workout_id=db_workout.id
+            )
+            total_duration += ex.duration
+            db.add(new_ex)
+
+        db_workout.total_duration = total_duration
+        MET = 8
+        db_workout.total_calories = (MET * 3.5 * current_user.weight / 200) * total_duration
+
+    db.commit()
+    db.refresh(db_workout)
+    return db_workout
 
 
 @router.delete("/{workout_id}")
 def delete_workout(
     workout_id: int,
     db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    current_user: UserModel = Depends(get_current_user)
 ):
-    db_workout = db.query(Workout).filter(Workout.id == workout_id, Workout.user_id == current_user.id).first()
+    db_workout = db.query(WorkoutModel).filter(
+        WorkoutModel.id == workout_id,
+        WorkoutModel.user_id == current_user.id
+    ).first()
     if not db_workout:
         raise HTTPException(status_code=404, detail="Workout not found")
     db.delete(db_workout)
