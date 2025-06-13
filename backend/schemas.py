@@ -54,6 +54,8 @@ class Exercise(ExerciseBase):
 
 class WorkoutBase(BaseModel):
     title: str
+    category: Optional[str] = None
+    is_favorite: Optional[bool] = False
     date: Optional[datetime] = None
 
 
@@ -63,6 +65,8 @@ class WorkoutCreate(WorkoutBase):
 
 class WorkoutUpdate(BaseModel):
     title: Optional[str] = None
+    category: Optional[str] = None
+    is_favorite: Optional[bool] = None
     exercises: Optional[List[ExerciseCreate]] = None
 
 

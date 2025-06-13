@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Float, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, Float, DateTime, Boolean
 from sqlalchemy.orm import relationship
 from backend.database import Base
 from datetime import datetime
@@ -26,6 +26,8 @@ class Workout(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, index=True)
+    category = Column(String, nullable=True)
+    is_favorite = Column(Boolean, default=False)
     date = Column(DateTime, default=datetime.utcnow)
     total_duration = Column(Integer)
     total_calories = Column(Float)
