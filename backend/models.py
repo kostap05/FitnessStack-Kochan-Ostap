@@ -59,3 +59,41 @@ class Program(Base):
     user_id = Column(Integer, ForeignKey("users.id"))
 
     owner = relationship("User", back_populates="programs")
+
+
+class OwnProgram(Base):
+    __tablename__ = "own_programs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    description = Column(String)
+    user_id = Column(Integer, ForeignKey("users.id"))
+
+    days = relationship("OwnProgramDay", back_populates="program", cascade="all, delete")
+    owner = relationship("User", back_populates="own_programs")
+
+
+class OwnProgramDay(Base):
+    __tablename__ = "own_program_days"
+
+    id = Column(Integer, primary_key=True, index=True)
+    day_name = Column(String)
+    program_id = Column(Integer, ForeignKey("own_programs.id"))
+
+    program = relationship("OwnProgram", back_populates="days")
+    exercises = relationship("OwnProgramExercise", back_populates="day", cascade="all, delete")
+
+
+class OwnProgramExercise(Base):
+    __tablename__ = "own_program_exercises"
+
+    id = Column(Integer, primary_key=True, index=True)
+    day_id = Column(Integer, ForeignKey("own_program_days.id"))
+    exercise_name = Column(String)
+    sets = Column(Integer)
+    reps = Column(Integer)
+
+    day = relationship("OwnProgramDay", back_populates="exercises")
+
+
+User.own_programs = relationship("OwnProgram", back_populates="owner")

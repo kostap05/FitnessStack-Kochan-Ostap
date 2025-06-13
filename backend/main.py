@@ -3,7 +3,7 @@ from fastapi.staticfiles import StaticFiles
 from backend.database import Base, engine
 from backend.auth import router as auth_router
 from backend.routes.user import router as user_router
-from backend.routes import workout
+from backend.routes import workout, own_programs
 
 
 app = FastAPI()
@@ -15,6 +15,9 @@ app.include_router(auth_router)
 app.include_router(user_router)
 
 app.include_router(workout.router)
+
+
+app.include_router(own_programs.router)
 
 @app.get("/")
 def home():

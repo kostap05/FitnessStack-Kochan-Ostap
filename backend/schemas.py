@@ -96,3 +96,51 @@ class Program(ProgramBase):
 
     class Config:
         orm_mode = True
+
+
+class OwnProgramExerciseBase(BaseModel):
+    exercise_name: str
+    sets: int
+    reps: int
+
+
+class OwnProgramDayBase(BaseModel):
+    day_name: str
+    exercises: List[OwnProgramExerciseBase]
+
+
+class OwnProgramCreate(BaseModel):
+    name: str
+    description: Optional[str] = ""
+    days: List[OwnProgramDayBase]
+
+
+class OwnProgramUpdate(BaseModel):
+    name: Optional[str] = None
+    description: Optional[str] = None
+    days: Optional[List[OwnProgramDayBase]] = None
+
+
+class OwnProgramExercise(OwnProgramExerciseBase):
+    id: int
+
+    class Config:
+        orm_mode = True
+
+
+class OwnProgramDay(OwnProgramDayBase):
+    id: int
+    exercises: List[OwnProgramExercise]
+
+    class Config:
+        orm_mode = True
+
+
+class OwnProgram(BaseModel):
+    id: int
+    name: str
+    description: str
+    days: List[OwnProgramDay]
+
+    class Config:
+        orm_mode = True
