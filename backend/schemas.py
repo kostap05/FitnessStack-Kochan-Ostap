@@ -1,5 +1,5 @@
 from pydantic import BaseModel, EmailStr, Field
-from typing import Optional
+from typing import List, Optional
 from datetime import datetime
 
 
@@ -34,21 +34,44 @@ class Token(BaseModel):
     token_type: str = "bearer"
 
 
-class WorkoutBase(BaseModel):
-    date: Optional[datetime] = None
-    exercise_type: str
-    duration: int
+class ExerciseBase(BaseModel):
+    exercise_name: str
     sets: int
     reps: int
+    duration: int  # мин
+
+
+class ExerciseCreate(ExerciseBase):
+    pass
+
+
+class Exercise(ExerciseBase):
+    id: int
+
+    class Config:
+        orm_mode = True
+
+
+class WorkoutBase(BaseModel):
+    title: str
+    date: Optional[datetime] = None
 
 
 class WorkoutCreate(WorkoutBase):
-    pass
+    exercises: List[ExerciseCreate]
+
+
+class WorkoutUpdate(BaseModel):
+    title: Optional[str] = None
+    exercises: Optional[List[ExerciseCreate]] = None
 
 
 class Workout(WorkoutBase):
     id: int
-    calories: float
+    date: datetime
+    total_duration: int
+    total_calories: float
+    exercises: List[Exercise]
 
     class Config:
         orm_mode = True

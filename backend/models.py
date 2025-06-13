@@ -23,16 +23,29 @@ class User(Base):
 
 class Workout(Base):
     __tablename__ = "workouts"
+
     id = Column(Integer, primary_key=True, index=True)
+    title = Column(String, index=True)
     date = Column(DateTime, default=datetime.utcnow)
-    exercise_type = Column(String)
-    duration = Column(Integer)  # in minutes
-    sets = Column(Integer)
-    reps = Column(Integer)
-    calories = Column(Float)
+    total_duration = Column(Integer)
+    total_calories = Column(Float)
     user_id = Column(Integer, ForeignKey("users.id"))
 
+    exercises = relationship("Exercise", back_populates="workout")
     owner = relationship("User", back_populates="workouts")
+
+
+class Exercise(Base):
+    __tablename__ = "exercises"
+
+    id = Column(Integer, primary_key=True, index=True)
+    workout_id = Column(Integer, ForeignKey("workouts.id"))
+    exercise_name = Column(String)
+    sets = Column(Integer)
+    reps = Column(Integer)
+    duration = Column(Integer)
+
+    workout = relationship("Workout", back_populates="exercises")
 
 
 class Program(Base):
