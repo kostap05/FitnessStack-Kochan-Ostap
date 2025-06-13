@@ -4,3 +4,10 @@ idea
 static
 fitness.db
 .env
+__pycache__
+venv
+.idea/misc.xml
+alembic.ini
+alembic/versions
+backend/__pycache__/
+backend/routes/__pycache__/
