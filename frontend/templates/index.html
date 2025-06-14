@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fitness Tracker - Home</title>
+  <link rel="stylesheet" href="/static/css/index.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+</head>
+<body>
+
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <a href="/">🏋️‍♀️ Fitness Tracker</a>
+      </div>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="/">Home</a></li>
+        <li><a href="/workouts">My Workouts</a></li>
+        <li><a href="/week-plan">Weekly Plan</a></li>
+        <li><a href="/external-plans">Training Plans (API)</a></li>
+        <li><a href="/quotes">Motivational Quotes</a></li>
+        <li id="profileLink"><a href="/profile">My Profile</a></li>
+        <li id="authLinks"></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Welcome to your Fitness Tracker 💪</h1>
+      <p>Track your workouts, plan your week, and stay motivated with daily quotes and ready-made plans!</p>
+    </section>
+
+    <section class="features">
+      <div class="feature">
+        <h2>📋 Track Workouts</h2>
+        <p>Log your exercises, sets, reps, and see calories burned in real-time.</p>
+      </div>
+      <div class="feature">
+        <h2>🗓️ Weekly Planner</h2>
+        <p>Plan your training for the week and stay consistent with your goals.</p>
+      </div>
+      <div class="feature">
+        <h2>✨ Get Inspired</h2>
+        <p>Discover new training plans and get daily motivational quotes from trusted APIs.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Fitness Tracker. Stay strong and healthy! 💙</p>
+  </footer>
+
+  <script>
+    const token = localStorage.getItem("access_token");
+    const authLinks = document.getElementById("authLinks");
+
+    if (token) {
+      authLinks.innerHTML = '<a href="#" id="logoutBtn">Logout</a>';
+      document.getElementById("logoutBtn").addEventListener("click", () => {
+        localStorage.removeItem("access_token");
+        window.location.href = "/login";
+      });
+    } else {
+      authLinks.innerHTML = `
+        <a href="/login">Login</a> /
+        <a href="/register">Register</a>
+      `;
+      document.getElementById("profileLink").style.display = "none";
+    }
+  </script>
+
+</body>
+</html>

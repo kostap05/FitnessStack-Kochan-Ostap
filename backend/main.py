@@ -35,9 +35,9 @@ app.include_router(own_programs.router)
 create_external_api_router(app)
 
 
-@app.get("/")
-def home():
-    return {"msg": "Welcome to FitnessTracker"}
+@app.get("/index")
+async def home_page(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
 
 @app.get("/register")
