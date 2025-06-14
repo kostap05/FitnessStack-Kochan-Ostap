@@ -42,3 +42,38 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const loginForm = document.getElementById("loginForm");
+
+  if (loginForm) {
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData();
+      formData.append("username", document.getElementById("username").value.trim());
+      formData.append("password", document.getElementById("password").value.trim());
+
+      try {
+        const response = await fetch("http://127.0.0.1:8000/auth/login", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          alert("Error: " + (error.detail || "Invalid credentials"));
+        } else {
+          const data = await response.json();
+          localStorage.setItem("access_token", data.access_token);
+          alert("Login successful! 🎉");
+          window.location.href = "index";
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Login failed. Check console for details.");
+      }
+    });
+  }
+});
