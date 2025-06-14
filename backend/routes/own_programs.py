@@ -95,7 +95,6 @@ def update_program(
         db.query(OwnProgramDayModel).filter(OwnProgramDayModel.program_id == db_program.id).delete()
         db.commit()
 
-        # Добавляем новые дни и упражнения
         for day in program.days:
             db_day = OwnProgramDayModel(
                 day_name=day.day_name,
