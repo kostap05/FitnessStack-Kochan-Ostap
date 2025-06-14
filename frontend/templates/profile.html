@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Profile</title>
+  <link rel="stylesheet" href="/static/css/index.css" />
+</head>
+<body>
+  <div class="profile-container">
+    <h1>My Profile</h1>
+    <div class="profile-card">
+      <img id="avatar" src="" alt="Avatar" class="avatar" />
+      <h2 id="username"></h2>
+      <p>Email: <span id="email"></span></p>
+      <p>Weight: <span id="weight"></span> kg</p>
+      <p>Height: <span id="height"></span> cm</p>
+      <p>Goal: <span id="goal"></span></p>
+    </div>
+    <button id="logoutBtn" class="register-btn">Logout</button>
+  </div>
+
+  <script src="/static/js/auth.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const token = localStorage.getItem("access_token");
+      if (!token) {
+        alert("Please log in first");
+        window.location.href = "login.html";
+        return;
+      }
+
+      try {
+        const response = await fetch("http://127.0.0.1:8000/profile/", {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Unauthorized");
+        }
+
+        const user = await response.json();
+        document.getElementById("username").textContent = user.username;
+        document.getElementById("email").textContent = user.email;
+        document.getElementById("weight").textContent = user.weight || "—";
+        document.getElementById("height").textContent = user.height || "—";
+        document.getElementById("goal").textContent = user.goal || "—";
+        document.getElementById("avatar").src = user.avatar_url || "default-avatar.png";
+      } catch (err) {
+        console.error(err);
+        alert("Session expired. Please log in again.");
+        window.location.href = "login.html";
+      }
+    });
+
+    // Logout:
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      localStorage.removeItem("access_token");
+      window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>
