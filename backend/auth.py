@@ -34,19 +34,23 @@ async def register(
     username: str = Form(...),
     email: str = Form(...),
     password: str = Form(...),
-    weight: float = Form(...),
-    height: float = Form(...),
-    goal: str = Form(...),
-    avatar: UploadFile = File(...),
+    weight: float = Form(None),
+    height: float = Form(None),
+    goal: str = Form(None),
+    avatar: UploadFile = File(None),
     db: Session = Depends(get_db)
 ):
     if db.query(User).filter((User.username == username) | (User.email == email)).first():
         raise HTTPException(status_code=400, detail="User already exists")
 
-    filename = f"{uuid4().hex}_{avatar.filename}"
-    filepath = os.path.join(AVATAR_DIR, filename)
-    with open(filepath, "wb") as buffer:
-        buffer.write(await avatar.read())
+    avatar_url = None
+    if avatar is not None:
+        filename = f"{uuid4().hex}_{avatar.filename}"
+        filepath = os.path.join(AVATAR_DIR, filename)
+        os.makedirs(AVATAR_DIR, exist_ok=True)
+        with open(filepath, "wb") as buffer:
+            buffer.write(await avatar.read())
+        avatar_url = f"/static/avatars/{filename}"
 
     hashed_password = pwd_context.hash(password)
 
@@ -57,12 +61,13 @@ async def register(
         weight=weight,
         height=height,
         goal=goal,
-        avatar_url=f"/{filepath}"
+        avatar_url=avatar_url
     )
     db.add(user)
     db.commit()
     db.refresh(user)
     return user
+
 
 @router.post("/login", response_model=Token)
 def login(username: str = Form(...), password: str = Form(...), db: Session = Depends(get_db)):

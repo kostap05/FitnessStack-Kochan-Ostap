@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Register - Fitness Tracker</title>
+  <link rel="stylesheet" href="/static/css/register.css">
+</head>
+<body class="register-page">
+  <div class="register-container">
+    <h1>Sign Up for <span class="brand">Fitness Tracker</span></h1>
+    <form id="registerForm" class="register-form">
+      <div class="form-group">
+        <label for="username">Username *</label>
+        <input type="text" id="username" required placeholder="Your username" />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email *</label>
+        <input type="email" id="email" required placeholder="you@example.com" />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password *</label>
+        <input type="password" id="password" required placeholder="••••••••" />
+      </div>
+
+      <div class="form-group">
+        <label for="weight">Weight (kg)</label>
+        <input type="number" id="weight" step="0.1" required placeholder="e.g. 70.5" />
+      </div>
+
+      <div class="form-group">
+        <label for="height">Height (cm)</label>
+        <input type="number" id="height" step="0.1" required placeholder="e.g. 175" />
+      </div>
+
+      <div class="form-group">
+        <label for="goal">Your Goal</label>
+        <input type="text" id="goal" required placeholder="e.g. Build muscle" />
+      </div>
+
+      <div class="form-group">
+        <label for="avatar">Upload Avatar</label>
+        <input type="file" id="avatar" name="avatar" accept="image/*" />
+      </div>
+
+      <button type="submit" class="register-btn">Register</button>
+
+      <p class="login-link">
+        Already registered? <a href="login.html">Login here</a>
+      </p>
+    </form>
+  </div>
+
+  <script src="/static/js/auth.js"></script>
+</body>
+</html>
