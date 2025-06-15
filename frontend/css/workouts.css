@@ -151,10 +151,46 @@ h1, h2, h3 {
   background: var(--primary-dark);
 }
 
+.filters {
+  margin-bottom: 1rem;
+}
+
+.filters input {
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+#workoutList li {
+  margin-bottom: 0.5rem;
+  background: #f8f8f8;
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+
+#workoutList button {
+  margin-left: 0.5rem;
+}
+
 footer {
   background: var(--primary);
   color: #fff;
   text-align: center;
   padding: 1rem;
   margin-top: auto;
+}
+
+button {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  margin: 0.5rem 0.5rem 0.5rem 0;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+button:hover {
+  background: var(--primary-dark);
 }

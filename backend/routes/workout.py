@@ -61,6 +61,21 @@ def list_workouts(
     return query.all()
 
 
+@router.get("/{workout_id}", response_model=WorkoutSchema)
+def get_workout(
+    workout_id: int,
+    db: Session = Depends(get_db),
+    current_user: UserModel = Depends(get_current_user)
+):
+    workout = db.query(WorkoutModel).filter(
+        WorkoutModel.id == workout_id,
+        WorkoutModel.user_id == current_user.id
+    ).first()
+    if not workout:
+        raise HTTPException(status_code=404, detail="Workout not found")
+    return workout
+
+
 @router.put("/{workout_id}", response_model=WorkoutSchema)
 def update_workout(
     workout_id: int,
