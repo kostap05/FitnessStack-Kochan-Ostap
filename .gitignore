@@ -1,7 +1,7 @@
 requirements.txt
 .idea
 idea
-static
+frontend/static
 fitness.db
 .env
 __pycache__
@@ -11,3 +11,5 @@ alembic.ini
 alembic/versions
 backend/__pycache__/
 backend/routes/__pycache__/
+frontend/static/avatars
+test.db
