@@ -172,11 +172,11 @@ h1, h2, h3 {
 }
 
 footer {
-  background: var(--primary);
-  color: #fff;
   text-align: center;
-  padding: 1rem;
-  margin-top: auto;
+  padding: 2rem;
+  background: #E5E7EB;
+  color: var(--text-muted);
+  margin-top: 3rem;
 }
 
 button {
@@ -194,3 +194,4 @@ button {
 button:hover {
   background: var(--primary-dark);
 }
+

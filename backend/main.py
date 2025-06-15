@@ -1,18 +1,18 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Depends
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
 
+from backend.dependencies import get_current_user
 from backend.database import Base, engine
 from backend.auth import router as auth_router
 from backend.routes.user import router as user_router
+from backend.models import User as UserModel
 from backend.routes import workout, own_programs
 from backend.routes.external_api import create_external_api_router
 
-# Инициализация приложения
 app = FastAPI()
 
-# Подключение CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://127.0.0.1:8000"],
@@ -57,3 +57,7 @@ async def profile_page(request: Request):
 @app.get("/workouts")
 async def workouts_page(request: Request):
     return templates.TemplateResponse("workouts.html", {"request": request})
+
+@app.get("/week-plan")
+async def week_plan_page(request: Request):
+    return templates.TemplateResponse("own_programs.html", {"request": request})

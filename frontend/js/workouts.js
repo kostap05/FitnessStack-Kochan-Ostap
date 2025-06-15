@@ -1,10 +1,6 @@
 const apiBase = "/workouts";
 const token = localStorage.getItem("access_token");
 
-
-let editingWorkoutId = null;
-
-
 function addExercise() {
   const container = document.getElementById("exercises");
   const html = `
@@ -18,10 +14,9 @@ function addExercise() {
   container.insertAdjacentHTML("beforeend", html);
 }
 
-
 document.getElementById("workoutForm").addEventListener("submit", async (e) => {
   e.preventDefault();
-  console.log("editingWorkoutId в submit:", editingWorkoutId);
+
   const title = document.getElementById("title").value.trim();
   const category = document.getElementById("category").value.trim();
   const is_favorite = document.getElementById("is_favorite").checked;
@@ -55,41 +50,24 @@ document.getElementById("workoutForm").addEventListener("submit", async (e) => {
 
   const payload = { title, category, is_favorite, exercises };
 
-  let res;
-
-  if (editingWorkoutId) {
-    console.log("Отправляем PUT запрос");
-    res = await fetch(`${apiBase}/${editingWorkoutId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify(payload)
-    });
-  } else {
-    console.log("Отправляем POST запрос");
-    res = await fetch(apiBase + "/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify(payload)
-    });
-  }
+  const res = await fetch(apiBase + "/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(payload)
+  });
 
   if (res.ok) {
-    alert(editingWorkoutId ? "Workout updated!" : "Workout created!");
+    alert("Workout created!");
     document.getElementById("workoutForm").reset();
     document.getElementById("exercises").innerHTML = "";
-    editingWorkoutId = null;
     loadWorkouts();
   } else {
     alert("Failed to save workout");
   }
 });
-
 
 function renderWorkouts(data) {
   const list = document.getElementById("workoutList");
@@ -99,7 +77,6 @@ function renderWorkouts(data) {
     item.innerHTML = `
       <strong>${w.title}</strong> (${w.category}) - 
       <em>${w.total_duration} min, ${w.total_calories.toFixed(0)} kcal</em>
-      <button onclick="editWorkout(${w.id})">Edit</button>
       <button onclick="deleteWorkout(${w.id})">Delete</button>
       <button onclick="toggleFavorite(${w.id})">Favorite: ${w.is_favorite}</button>
       <button onclick="repeatWorkout(${w.id})">Repeat</button>
@@ -108,7 +85,6 @@ function renderWorkouts(data) {
   });
 }
 
-
 async function loadWorkouts() {
   const res = await fetch(apiBase + "/", {
     headers: { Authorization: `Bearer ${token}` }
@@ -116,42 +92,6 @@ async function loadWorkouts() {
   const data = await res.json();
   renderWorkouts(data);
 }
-
-
-async function editWorkout(id) {
-  const res = await fetch(`${apiBase}/${id}`, {
-    headers: { Authorization: `Bearer ${token}` }
-  });
-  if (res.ok) {
-    const w = await res.json();
-    document.getElementById("title").value = w.title;
-    document.getElementById("category").value = w.category;
-    document.getElementById("is_favorite").checked = w.is_favorite;
-
-
-    const container = document.getElementById("exercises");
-    container.innerHTML = "";
-    w.exercises.forEach(ex => {
-      const html = `
-        <div class="exercise">
-          <input type="text" placeholder="Exercise Name" class="exercise_name" value="${ex.exercise_name}" required />
-          <input type="number" placeholder="Sets" class="sets" value="${ex.sets}" required />
-          <input type="number" placeholder="Reps" class="reps" value="${ex.reps}" required />
-          <input type="number" placeholder="Duration (min)" class="duration" value="${ex.duration}" required />
-        </div>
-      `;
-      container.insertAdjacentHTML("beforeend", html);
-    });
-    console.log("Status:", res.status);
-    console.log("Response text:", await res.clone().text());
-
-    editingWorkoutId = id;
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  } else {
-    alert("Failed to load workout");
-  }
-}
-
 
 async function filterWorkouts() {
   const category = document.getElementById("filterCategory").value.trim();
@@ -162,7 +102,6 @@ async function filterWorkouts() {
   renderWorkouts(data);
 }
 
-
 async function loadFavorites() {
   const res = await fetch(apiBase + "/favorites/", {
     headers: { Authorization: `Bearer ${token}` }
@@ -170,7 +109,6 @@ async function loadFavorites() {
   const data = await res.json();
   renderWorkouts(data);
 }
-
 
 async function deleteWorkout(id) {
   if (!confirm("Delete this workout?")) return;
@@ -184,7 +122,6 @@ async function deleteWorkout(id) {
     alert("Failed to delete");
   }
 }
-
 
 async function toggleFavorite(id) {
   const res = await fetch(apiBase + "/" + id + "/favorite", {

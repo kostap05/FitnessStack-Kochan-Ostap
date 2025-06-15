@@ -1,10 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Title</title>
+  <meta charset="UTF-8" />
+  <title>Weekly Plans</title>
+  <link rel="stylesheet" href="/static/css/own_programs.css" />
 </head>
 <body>
+  <nav>
+    <div class="navbar-container">
+      <h1 class="logo">🏋️‍♂️ Fitness Tracker</h1>
+      <ul class="nav-links">
+        <li><a href="/index">Home</a></li>
+        <li><a href="/workouts">My Workouts</a></li>
+        <li><a href="/week-plan">Weekly Plan</a></li>
+        <li><a href="/external-plans">Training Plans (API)</a></li>
+        <li><a href="/quotes">Motivational Quotes</a></li>
+        <li><a href="/profile-page">My Profile</a></li>
+        <li id="authLinks"></li>
+      </ul>
+    </div>
+  </nav>
 
+  <main>
+    <section class="hero">
+      <h1>Your Weekly Plans</h1>
+      <p>Create and manage your personalized workout plans</p>
+    </section>
+
+    <section>
+      <form id="programForm" class="profile-container">
+        <h2 id="formTitle">Create New Plan</h2>
+        <input type="text" id="programName" placeholder="Program Name" required />
+        <textarea id="programDescription" placeholder="Program Description" rows="3"></textarea>
+
+        <div id="daysContainer"></div>
+        <button type="button" onclick="addDay()">Add Day</button>
+        <button type="submit">Save Plan</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>Your Plans</h2>
+      <ul id="programList"></ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Fitness Tracker. Stay strong and healthy! 💙</p>
+  </footer>
+
+  <script src="/static/js/own_programs.js"></script>
 </body>
 </html>
