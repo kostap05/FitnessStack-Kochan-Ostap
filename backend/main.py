@@ -3,11 +3,9 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
 
-from backend.dependencies import get_current_user
 from backend.database import Base, engine
 from backend.auth import router as auth_router
 from backend.routes.user import router as user_router
-from backend.models import User as UserModel
 from backend.routes import workout, own_programs
 from backend.routes.external_api import create_external_api_router
 
@@ -61,3 +59,7 @@ async def workouts_page(request: Request):
 @app.get("/week-plan")
 async def week_plan_page(request: Request):
     return templates.TemplateResponse("own_programs.html", {"request": request})
+
+@app.get("/get-workout")
+async def get_workout_page(request: Request):
+    return templates.TemplateResponse("get_workout.html", {"request": request})

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Suggested Exercises</title>
+  <link rel="stylesheet" href="/static/css/get_workout.css">
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+      <h1 class="logo">🏋️‍♂️ Fitness Tracker</h1>
+      </div>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="/index">Home</a></li>
+        <li><a href="/workouts">My Workouts</a></li>
+        <li><a href="/week-plan">Weekly Plan</a></li>
+        <li><a href="/get-workout">Training Plans (API)</a></li>
+        <li><a href="/quotes">Motivational Quotes</a></li>
+        <li id="profileLink"><a href="/profile-page">My Profile</a></li>
+        <li id="authLinks"></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Get Suggested Exercises</h1>
+
+  <label for="muscleSelect">Select Muscle Group:</label>
+  <select id="muscleSelect">
+    <option value="">--Choose--</option>
+    <option value="abs">Abs</option>
+    <option value="biceps">Biceps</option>
+    <option value="triceps">Triceps</option>
+    <option value="chest">Chest (Pectorals)</option>
+    <option value="shoulders">Shoulders (Delts)</option>
+    <option value="forearms">Forearms</option>
+    <option value="back">Back (Upper Back)</option>
+   <option value="lats">Lats</option>
+    <option value="traps">Traps</option>
+    <option value="quads">Quads</option>
+    <option value="hamstrings">Hamstrings</option>
+    <option value="calves">Calves</option>
+    <option value="glutes">Glutes</option>
+    <option value="adductors">Adductors</option>
+    <option value="spine">Spine</option>
+  </select>
+    <button id="getExercisesBtn">Get Exercises</button>
+
+    <div id="exerciseList"></div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Fitness Tracker. Stay strong and healthy! 💙</p>
+  </footer>
+<script src="/static/js/get_workout.js"></script>
+</body>
+</html>
