@@ -53,3 +53,7 @@ async def login_page(request: Request):
 @app.get("/profile-page")
 async def profile_page(request: Request):
     return templates.TemplateResponse("profile.html", {"request": request})
+
+@app.get("/workouts")
+async def workouts_page(request: Request):
+    return templates.TemplateResponse("workouts.html", {"request": request})

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Workouts</title>
+  <link rel="stylesheet" href="/static/css/workouts.css" />
+</head>
+<body>
+<nav>
+  <div class="navbar-container">
+    <h1 class="logo">🏋️‍♂️ Fitness Tracker</h1>
+    <ul class="nav-links">
+      <li><a href="/index">Home</a></li>
+      <li><a href="/workouts">My Workouts</a></li>
+      <li><a href="/week-plan">Weekly Plan</a></li>
+      <li><a href="/external-plans">Training Plans (API)</a></li>
+      <li><a href="/quotes">Motivational Quotes</a></li>
+      <li><a href="/profile-page">My Profile</a></li>
+      <li id="authLinks"></li>
+    </ul>
+  </div>
+</nav>
+
+  <main class="container">
+    <h1>My Workouts</h1>
+
+    <section id="workoutFormSection">
+      <h2>Create Workout</h2>
+      <form id="workoutForm">
+        <input type="text" id="title" placeholder="Title" required />
+        <input type="text" id="category" placeholder="Category" required />
+        <label>Favorite? <input type="checkbox" id="is_favorite" /></label>
+        <h3>Exercises</h3>
+        <div id="exercises"></div>
+        <button type="button" onclick="addExercise()">Add Exercise</button>
+        <button type="submit">Create Workout</button>
+      </form>
+    </section>
+
+    <section id="workoutsSection">
+      <h2>Your Workouts</h2>
+      <ul id="workoutList"></ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 FitnessTracker. All rights reserved.</p>
+  </footer>
+
+  <script src="/static/js/workouts.js"></script>
+</body>
+</html>
