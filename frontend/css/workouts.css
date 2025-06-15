@@ -6,42 +6,35 @@
   --background: #F9FAFB;
   --text: #1F2937;
   --text-muted: #6B7280;
-  --border: #E5E7EB;
   --card: #FFFFFF;
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+  --border: #E5E7EB;
 }
 
 body {
-  margin: 0;
   font-family: 'Inter', sans-serif;
   background: var(--background);
   color: var(--text);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  margin: 0;
+  padding: 0;
 }
 
 nav {
   background: var(--primary);
-  padding: 1rem 2rem;
 }
 
 .navbar-container {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 1rem 2rem;
 }
 
 .logo {
   color: #fff;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+  font-weight: 700;
   margin: 0;
 }
 
@@ -50,37 +43,47 @@ nav {
   margin: 0;
   padding: 0;
   display: flex;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .nav-links li a {
   color: #fff;
   text-decoration: none;
-  font-weight: 600;
-  transition: opacity 0.2s;
+  font-weight: 400; /* единый стиль: не жирный */
 }
 
 .nav-links li a:hover {
-  opacity: 0.8;
+  text-decoration: underline;
 }
 
-.container {
-  max-width: 960px;
-  margin: 2rem auto;
-  padding: 0 1rem;
-  flex: 1;
+main.container {
+  max-width: 900px;
+  margin: 3rem auto;
+  padding: 0 2rem;
+  text-align: center;
 }
 
-h1, h2, h3 {
-  color: var(--primary-dark);
+main.container h1 {
+  font-size: 2rem;
+  color: var(--primary);
 }
 
 #workoutFormSection {
   background: var(--card);
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
   margin-bottom: 2rem;
+  text-align: left;
+}
+
+#workoutFormSection h2 {
+  margin-top: 0;
+  color: var(--primary-dark);
+}
+
+#workoutForm {
+  margin-top: 1rem;
 }
 
 #workoutForm input[type="text"],
@@ -93,93 +96,13 @@ h1, h2, h3 {
   font-size: 1rem;
 }
 
+#workoutForm label {
+  font-weight: 500;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
 #workoutForm button {
-  background: var(--primary);
-  color: #fff;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  margin-right: 1rem;
-  border-radius: 8px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-#workoutForm button:hover {
-  background: var(--primary-dark);
-}
-
-.exercise {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-#workoutsSection ul {
-  list-style: none;
-  padding: 0;
-}
-
-#workoutsSection li {
-  background: var(--card);
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-#workoutsSection li strong {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-size: 1.1rem;
-}
-
-#workoutsSection li button {
-  background: var(--primary);
-  color: #fff;
-  border: none;
-  padding: 0.5rem 1rem;
-  margin-right: 0.5rem;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: background 0.2s;
-}
-
-#workoutsSection li button:hover {
-  background: var(--primary-dark);
-}
-
-.filters {
-  margin-bottom: 1rem;
-}
-
-.filters input {
-  padding: 0.5rem;
-  margin-right: 0.5rem;
-}
-
-#workoutList li {
-  margin-bottom: 0.5rem;
-  background: #f8f8f8;
-  padding: 0.5rem;
-  border-radius: 5px;
-}
-
-#workoutList button {
-  margin-left: 0.5rem;
-}
-
-footer {
-  text-align: center;
-  padding: 2rem;
-  background: #E5E7EB;
-  color: var(--text-muted);
-  margin-top: 3rem;
-}
-
-button {
   background: var(--primary);
   color: #fff;
   border: none;
@@ -191,7 +114,86 @@ button {
   transition: background 0.2s;
 }
 
-button:hover {
+#workoutForm button:hover {
   background: var(--primary-dark);
 }
 
+#workoutsSection {
+  text-align: left;
+}
+
+#workoutsSection h2 {
+  color: var(--primary-dark);
+}
+
+#workoutList {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+#workoutList li {
+  background: var(--card);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+#workoutList li strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+#workoutList li button {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin-right: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+#workoutList li button:hover {
+  background: var(--primary-dark);
+}
+
+.filters {
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.filters input {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-right: 0.5rem;
+}
+
+.filters button {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin-right: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+
+.filters button:hover {
+  background: var(--primary-dark);
+}
+
+footer {
+  text-align: center;
+  padding: 2rem;
+  background: #E5E7EB;
+  color: var(--text-muted);
+  margin-top: 3rem;
+}
