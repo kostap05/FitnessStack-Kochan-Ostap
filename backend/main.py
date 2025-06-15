@@ -63,3 +63,8 @@ async def week_plan_page(request: Request):
 @app.get("/get-workout")
 async def get_workout_page(request: Request):
     return templates.TemplateResponse("get_workout.html", {"request": request})
+
+
+@app.get("/quotes")
+async def quotes_page(request: Request):
+    return templates.TemplateResponse("quotes.html", {"request": request})

@@ -1,11 +1,10 @@
 from fastapi import APIRouter, HTTPException, Query, FastAPI
 import httpx
 
-
-RAPIDAPI_KEY = "4d2489870bmsh762f34a99226f22p19844fjsn35fca53ddae2"
 ZEN_QUOTES_URL = "https://zenquotes.io/api/random"
+RAPIDAPI_KEY = "4d2489870bmsh762f34a99226f22p19844fjsn35fca53ddae2"
 RAPIDAPI_HOST = "exercisedb.p.rapidapi.com"
-BASE_URL = "https://exercisedb.p.rapidapi.com"
+BASE_URL = f"https://{RAPIDAPI_HOST}"
 
 router = APIRouter(
     prefix="/external",
@@ -25,12 +24,22 @@ async def get_motivation():
 
 
 MUSCLE_GROUPS = {
-    "legs": "lower legs",
-    "abs": "abdominals",
-    "chest": "chest",
-    "back": "back",
+    "abductors": "abductors",
+    "abs": "abs",
+    "adductors": "adductors",
     "biceps": "biceps",
+    "calves": "calves",
+    "shoulders": "delts",
+    "forearms": "forearms",
+    "glutes": "glutes",
+    "hamstrings": "hamstrings",
+    "lats": "lats",
+    "chest": "pectorals",
+    "quads": "quads",
+    "spine": "spine",
+    "traps": "traps",
     "triceps": "triceps",
+    "back": "upper back"
 }
 
 @router.get("/suggested-exercises")
@@ -42,8 +51,8 @@ async def get_suggested_exercises(
         raise HTTPException(status_code=404, detail=f"Muscle '{muscle}' not found")
 
     headers = {
-        "X-RapidAPI-Key": RAPIDAPI_KEY,
-        "X-RapidAPI-Host": RAPIDAPI_HOST
+        "x-rapidapi-key": RAPIDAPI_KEY,
+        "x-rapidapi-host": RAPIDAPI_HOST
     }
 
     url = f"{BASE_URL}/exercises/target/{muscle_name}"
@@ -51,7 +60,7 @@ async def get_suggested_exercises(
     async with httpx.AsyncClient() as client:
         response = await client.get(url, headers=headers)
         if response.status_code != 200:
-            raise HTTPException(status_code=response.status_code, detail="Failed to fetch exercises")
+            raise HTTPException(status_code=response.status_code, detail=response.text)
         exercises = response.json()
 
     result = [

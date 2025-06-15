@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Motivational Quotes</title>
+  <link rel="stylesheet" href="/static/css/quotes.css">
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="logo">🏋️‍♂️ Fitness Tracker</div>
+      <ul class="nav-links">
+        <li><a href="/index">Home</a></li>
+        <li><a href="/workouts">My Workouts</a></li>
+        <li><a href="/week-plan">Weekly Plan</a></li>
+        <li><a href="/get-workout">Training Plans (API)</a></li>
+        <li><a href="/quotes">Motivational Quotes</a></li>
+        <li><a href="/profile-page">My Profile</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Motivational Quote</h1>
+    <div class="quote-card" id="quoteCard">
+      <p id="quoteText">Click the button to get a quote!</p>
+      <p class="author" id="quoteAuthor"></p>
+    </div>
+    <button id="getQuoteBtn">Get New Quote</button>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Fitness Tracker. Stay strong and healthy! 💙</p>
+  </footer>
+
+  <script>
+    document.getElementById("getQuoteBtn").addEventListener("click", async () => {
+      const text = document.getElementById("quoteText");
+      const author = document.getElementById("quoteAuthor");
+
+      text.textContent = "Loading...";
+      author.textContent = "";
+
+      try {
+        const res = await fetch("/external/motivation");
+        if (!res.ok) {
+          throw new Error("Failed to fetch quote");
+        }
+        const data = await res.json();
+        text.textContent = `"${data.quote}"`;
+        author.textContent = `— ${data.author}`;
+      } catch (err) {
+        text.textContent = "Could not load quote. Try again!";
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>
